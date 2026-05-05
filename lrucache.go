@@ -30,6 +30,7 @@ func (lru *LRUCache) Put(first string, second string) {
 func (lru *LRUCache) Get(key string) (string, bool) {
 	for e := lru.l.Front(); e.Next() != nil; e = e.Next() {
 		if e.Value.(Pair).First == key {
+			lru.l.MoveToFront(e)
 			return e.Value.(Pair).Second, true
 		}
 	}
