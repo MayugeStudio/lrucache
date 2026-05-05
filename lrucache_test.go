@@ -64,7 +64,7 @@ func Test_LRUCache_Put_RemoveLastElementIfLenExceedCapacity(t *testing.T) {
 
 		e = e.Next()
 	}
-	
+
 }
 
 func Test_LRUCache_Get(t *testing.T) {
@@ -76,9 +76,8 @@ func Test_LRUCache_Get(t *testing.T) {
 	if lru.l.Len() != 3 {
 		t.Fatalf("Expected 3 but got %d\n", 3)
 	}
-	
+
 	if r, ok := lru.Get("a"); ok && r != "A" {
 		t.Fatalf("expected A but got %s\n", r)
 	}
 }
-
