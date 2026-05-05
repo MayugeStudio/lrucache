@@ -12,19 +12,26 @@ type Pair struct {
 
 type LRUCache struct {
 	l *list.List
+	capacity int
 }
 
-func New() *LRUCache {
-	lru := &LRUCache{}
+func New(capacity int) *LRUCache {
+	lru := &LRUCache{
+		capacity: capacity,
+	}
 	lru.l = list.New()
 	return lru
 }
 
 func (lru *LRUCache) Put(first string, second string) {
-	lru.l.PushBack(Pair{
+	lru.l.PushFront(Pair{
 		First: first,
 		Second: second,
 	})
+	if lru.l.Len() > lru.capacity {
+		back := lru.l.Back()
+		lru.l.Remove(back)
+	}
 }
 
 func (lru *LRUCache) Get(key string) (string, bool) {
