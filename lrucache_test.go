@@ -1,3 +1,5 @@
+// TODO: Add newline character to the error messages.
+// TODO: Use Fatalf instead of Errorf at the some places.
 package lrucache
 
 import (
