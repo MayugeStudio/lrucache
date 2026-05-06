@@ -5,43 +5,53 @@ import (
 	// "fmt"
 )
 
-type Pair struct {
-	First  string
-	Second string
+type LRUCache struct {
+	l        *list.List // linked list of entries
+	cache    map[string]*list.Element
+	capacity int
 }
 
-type LRUCache struct {
-	l        *list.List
-	capacity int
+type entry struct {
+	key   string
+	value string
 }
 
 func New(capacity int) *LRUCache {
 	lru := &LRUCache{
+		l: list.New(),
+		cache: make(map[string]*list.Element, capacity),
 		capacity: capacity,
 	}
-	lru.l = list.New()
 	return lru
 }
 
-func (lru *LRUCache) Put(first string, second string) {
-	lru.l.PushFront(Pair{
-		First:  first,
-		Second: second,
-	})
+func (lru *LRUCache) Put(key string, value string) {
+	if element, ok := lru.cache[key]; ok {
+		// Update an entry value with new one and move it to the front of the list
+		element.Value.(*entry).value = value
+		lru.l.MoveToFront(element)
+		return
+	}
 
-	if lru.l.Len() > lru.capacity {
+	// Remove the least recently used element if the cache size exceeds its capacity.
+	if lru.l.Len() == lru.capacity {
+		// TODO: Handle back == nil situation
 		back := lru.l.Back()
+		delete(lru.cache, back.Value.(*entry).key)
 		lru.l.Remove(back)
 	}
+
+	// Add an element if the key is not in the cache.
+	e := lru.l.PushFront(&entry{ key: key, value: value })
+	lru.cache[key] = e
 }
 
 func (lru *LRUCache) Get(key string) (string, bool) {
-	for e := lru.l.Front(); e.Next() != nil; e = e.Next() {
-		if e.Value.(Pair).First == key {
-			lru.l.MoveToFront(e)
-			return e.Value.(Pair).Second, true
-		}
+	if element, ok := lru.cache[key]; ok {
+		lru.l.MoveToFront(element)
+		return element.Value.(*entry).value, true
 	}
+
 	return "", false
 }
 
