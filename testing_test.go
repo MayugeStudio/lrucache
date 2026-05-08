@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // Modified: packege name changed
 
-package lrucache
+package lrucache_test
 
 import (
 	"crypto/rand"
