@@ -138,3 +138,23 @@ func Test_LRUCache_Cap1(t *testing.T) {
 	}
 }
 
+func Test_LRUCache_Size(t *testing.T) {
+	lru := New(10)
+	lru.Put("a", "A")
+	lru.Put("b", "B")
+	lru.Put("c", "C")
+
+	if lru.Count() != lru.l.Len() {
+		t.Fatalf("Expected %d but got %d\n", lru.l.Len(), lru.Count())
+	}
+}
+
+func Test_LRUCache_Dump(t *testing.T) {
+	lru := New(10)
+	lru.Put("a", "A")
+	lru.Put("b", "B")
+	lru.Put("c", "C")
+
+	lru.Dump()
+}
+
