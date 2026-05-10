@@ -2,7 +2,7 @@ package lrucache
 
 import (
 	"container/list"
-	// "fmt"
+	"fmt"
 )
 
 type LRUCache struct {
@@ -55,6 +55,15 @@ func (lru *LRUCache) Get(key string) (string, bool) {
 	return "", false
 }
 
-// func (lru *LRUCache) Remove(key string) bool {
-// 	lru.l.Remove(key)
-// }
+// Count gives the current count of the elements in this cache
+func (lru *LRUCache) Count() int {
+	return lru.l.Len()
+}
+
+// Dump prints the elements in the cache.
+func (lru *LRUCache) Dump() {
+	for e := lru.l.Front(); e != nil; e = e.Next() {
+		fmt.Println("%s => %s\n", e.Value.(entry).key, e.Value.(entry).value)
+	}
+}
+
