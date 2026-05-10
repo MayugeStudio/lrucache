@@ -63,7 +63,7 @@ func (lru *LRUCache) Count() int {
 // Dump prints the elements in the cache.
 func (lru *LRUCache) Dump() {
 	for e := lru.l.Front(); e != nil; e = e.Next() {
-		fmt.Printf("%s => %s\n", e.Value.(*entry).key, e.Value.(*entry).value)
+		fmt.Printf("%q => %q\n", e.Value.(*entry).key, e.Value.(*entry).value)
 	}
 }
 
